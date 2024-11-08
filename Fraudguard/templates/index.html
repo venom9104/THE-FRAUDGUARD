@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRAUDGUARD</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400&display=swap" rel="stylesheet">
+  <style>
+        body {
+            background-color: #281549;
+            background-size: cover;
+            background-position: center;
+            color: #FFFFFF; /* Light text color */
+            font-family: 'Big Shoulders Display',bold, sans-serif; /* Elegant font */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; 
+        }
+        .body img {
+            max-width: 100%; /* Responsive image */
+            height: auto;
+            padding-top: 0%;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .logo-container {   
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .result {
+            color: #FFD700; /* Gold for results */
+        }
+        .custom-input {
+            background-image: linear-gradient(#832eff, #fe4ff2); /* Dark input fields */
+            border: 1px solid #444; /* Subtle border */
+            border-radius: 8px;
+            padding: 15px;
+            width: 100%;
+            max-width: 450px;
+            outline: none;
+            color: #FFD700; /* Gold text */
+            font-size: 20px;
+            transition: background-color 0.3s, box-shadow 0.3s, border 0.3s;
+        }
+        .custom-input::placeholder {
+            color: #281549; /* Lighter placeholder text */
+        }
+        .custom-input:hover, .custom-input:focus {
+            background-color: #333; /* Darker input on focus */
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.7); /* Gold shadow */
+            border: 1px solid #FFD700; /* Gold border on focus */
+        }
+        .custom-button {
+            background-image: linear-gradient(#ff6e6e, #8f005c);
+            color: #ffffff; /* Black text */
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 30px;
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .custom-button img {
+            width: 20px; /* Logo size */
+            margin-right: 5px;
+        }
+        .custom-button:hover {
+            background-image: radial-gradient(#0e6e8e, #7621b0);
+            transform: scale(1.05); /* Scale up effect */
+            color: #FF8F00;
+            border: 1px solid #FFD700;
+        }
+        .highlighted {
+            background-color: #FFD700; /* Highlight color for keywords */
+            color: #000; /* Black text */
+            font-weight: bold; /* Bold highlighted text */
+        }
+        .modal-content {
+            background-color: #2B2B2B; /* Dark modal background */
+            color: #FFFFFF; /* Light text */
+            border-radius: 10px; /* Rounded corners */
+        }
+        .modal-header {
+            border-bottom: 1px solid #444; /* Subtle border */
+        }
+        button#themeToggle {
+            background-color: #2A2A2A; /* Button background */
+            color: #FFFFFF; /* Text color */
+            border: none;
+            border-radius: 5px; /* Rounded corners */
+        }
+        button#themeToggle:hover {
+            background-color: #3A3A3A; /* Button hover */
+        }
+        /* Loading overlay styles */
+        .loading-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker semi-transparent background */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loading-spinner {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #bfe113; /* Gold */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite; /* Spin animation */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .custom-education-btn {
+           background-color: #b290f1; /* Change to your desired background color */
+           color: #281549; /* Lighter placeholder text */
+           border: none; /* Remove border if desired */
+           font-size: 30px;
+        }
+        .custom-education-btn:hover {
+           background-color: #68528f; /* Change hover color */
+        }
+        .custom-guide-btn {
+           background-color: #b290f1; /* Change to your desired background color */
+           color: #281549; /* Lighter placeholder text */
+           border: none; /* Remove border if desired */
+           font-size: 30px;
+        }
+        .custom-guide-btn:hover {
+           background-color: #68528f; /* Change hover color */
+        }
+        .result-spam {
+           color: red; /* Red color for spam indication */
+        }
+        .welcome-text {
+            font-size: 150px;
+            font-weight: bold;
+            text-shadow: 0px 0px 20px #ffffff;
+            margin-top: none;
+            text-align: left;
+        }
+
+        .subtitle {
+            font-size: 40px;
+            color: #D3D3D3;
+            text-align: left;
+        }
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            margin-left: 200px;
+        }
+        .text-group {
+            margin-right: 20px; /* Space between text and circle logo */
+        }
+        .circle-logo {
+            width: 400px; /* Adjust width as needed */
+            margin-bottom: 100px;
+            margin-left: 100px;
+        }
+        .logo {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            width: 500px;
+            margin-left: 50px;
+        }
+        .plain-box {
+            margin-bottom: 0%;
+        }
+        .text-section {
+            flex: 1;
+            padding-right: 20px;
+        }
+        .text-section h1 {
+            font-size: 100px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0px 0px 10px #fff;
+        }
+        .text-section p {
+            font-size: 30px;
+            line-height: 1.6;
+            margin-left: 60px;
+        }
+        .image-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-section img {
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .about-section {
+            display: flex;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .email-url{
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div> 
+         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo"> <!-- Replace with the actual logo image path -->
+         <div class="welcome-section">
+            <div class="text-group">
+                <h1 class="welcome-text">WELCOME TO</br>FRAUDGUARD</h1>
+                <p class="subtitle">A Spam E-Mail & Phishing URL Scanner</p>
+            </div> 
+            <img src="{{ url_for('static', filename='images/circle-logo-removebg-preview.png') }}" alt="Circle Logo" class="circle-logo"> <!-- Replace with the actual circle logo path -->
+         </div>   
+        <div class="modal fade" id="guideModal" tabindex="-1" role="dialog" aria-labelledby="guideModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="guideModalLabel">How to Use the App</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Step 1: Enter Email Content</h6>
+                        <p>Type or paste the email content you want to analyze in the text area.</p>
+                        <h6>Step 2: Enter a URL</h6>
+                        <p>If you want to check a URL, paste it in the provided field.</p>
+                        <h6>Step 3: Submit the Analysis</h6>
+                        <p>Click the 'Analyze' button to receive feedback on the email content and URL.</p>
+                        <h6>Understanding the Results</h6>
+                        <p>The results will indicate if the email or URL is considered safe or potentially harmful, along with any relevant keywords.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="#" class="btn custom-guide-btn mt-3" data-toggle="modal" data-target="#guideModal">How to Use</a>
+        </div>
+        <div class="plain-box">
+            <img src="{{ url_for('static', filename='images/FRAUDGUARD.png') }}" alt="FRAUDGUARD" width="300" height="300">
+        </div>
+        <form method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="email_content" style="color: #FFFFFF;" class="email-url">Email Content:</label></br>
+                <input type="text" id="email_content" name="email_content" class="custom-input" placeholder="Enter the email body">
+            </div>
+            <div class="form-group">
+                <label for="url" style="color: #FFFFFF;" class="email-url">URL:</label></br>
+                <input type="text" id="url" name="url" class="custom-input" placeholder="Enter the URL to scan">
+                <div id="urlFeedback" class="mt-2"></div>
+            </div>
+            <div class="text-center">
+                <button type="submit" aria-label="Analyze email and URL" class="custom-button">
+                    <img src="{{ url_for('static', filename='images/Search.png') }}" alt="Logo">SCAN
+                </button>
+            </div>
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-spinner"></div>
+            </div>
+            <div class="text-center">
+                <a href="/education" class="btn custom-education-btn mt-3">be aware</a> <!-- Additional User Education link -->
+            </div>
+            <div class="about-section">
+                <div class="text-section">
+                    <h1>ABOUT US</h1>
+                    <p>At FRAUDGUARD, we are dedicated to empowering users with the tools they need to navigate the digital landscape safely and confidently. In an era where online threats are increasingly sophisticated, our mission is to provide a comprehensive solution for identifying phishing attempts, analyzing email content, and ensuring the safety of web links.</p>
+                </div>
+                <div class="image-section">
+                    <img src="{{ url_for('static', filename='images/Security.png') }}" alt="Security">
+                </div>
+            </div>
+        </form>
+        <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultModalLabel">Result</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <strong id="resultText"></strong>
+                        <div id="highlightedContent" class="highlighted-content"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $('form').on('submit', function() {
+            $('#loadingOverlay').css('display', 'flex');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if result %}
+                const resultTextElement = document.getElementById('resultText');
+                const resultMessage = "{{ result }}";
+                resultTextElement.innerText = resultMessage;
+                if (resultMessage.includes("email content indicates spam")) {  // Check for spam in the result
+                    resultTextElement.classList.add("result-spam");
+                } 
+                else if (resultMessage.includes("Potential phishing attempt")) {
+                    resultTextElement.classList.add("result-phishing");
+                } 
+                else if (resultMessage.includes("safe")) {
+                    resultTextElement.classList.add("result-safe");
+                }
+                $('#resultModal').modal('show');
+            {% endif %}
+        });
+        
+        document.getElementById('email_content').addEventListener('input', function() {
+            const content = this.value;
+            const spamKeywords = ["win", "free", "urgent", "limited time", "act now", "click here", "special promotion"];
+            let highlightedContent = content;
+
+            spamKeywords.forEach(keyword => {
+                const regex = new RegExp(`(${keyword})`, 'gi');
+                highlightedContent = highlightedContent.replace(regex, '<span class="highlighted">$1</span>');
+            });
+
+            document.getElementById('highlightedContent').innerHTML = highlightedContent;
+        });
+
+        $(document).ready(function() {
+            $('#url').on('input', function() {
+                const url = $(this).val();
+                $('#urlFeedback').text('');
+                if (url) {
+                    $('#urlFeedback').text('Validating...').css('color', 'golden');
+                    $.ajax({
+                        url: '/validate_url',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ url: url }),
+                        success: function(response) {
+                            if (response.is_valid) {
+                                $('#urlFeedback').text('Valid URL.').css('color', 'green');
+                            } else {
+                                $('#urlFeedback').text(response.message).css('color', 'red');
+                            }
+                        },
+                        error: function() {
+                            $('#urlFeedback').text('Error validating URL.').css('color', 'red');
+                        }
+                    });
+                }  
+            });
+        });
+    </script>
+    
+</body>
+</html>
